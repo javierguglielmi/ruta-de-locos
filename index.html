@@ -32,7 +32,12 @@
   --display:'Bungee','Impact','Arial Black',sans-serif;
   --ui:'Barlow Semi Condensed','Arial Narrow',system-ui,sans-serif;
   color-scheme:light;
+  /* margenes seguros: camara/notch arriba, laterales en horizontal, barra de gestos abajo */
+  --st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);--sl:env(safe-area-inset-left,0px);--sr:env(safe-area-inset-right,0px);
 }
+/* instalada o en pantalla completa algunos moviles no informan el margen de la camara: se deja un minimo */
+@media (display-mode:fullscreen),(display-mode:standalone){:root{--st:max(env(safe-area-inset-top,0px),26px)}}
+@media (orientation:landscape) and (display-mode:fullscreen),(orientation:landscape) and (display-mode:standalone){:root{--st:env(safe-area-inset-top,0px);--sl:max(env(safe-area-inset-left,0px),28px);--sr:max(env(safe-area-inset-right,0px),28px)}}
 html,body{height:100%}
 body{
   margin:0;background:var(--asphalt);color:var(--paper);font-family:var(--ui);font-size:16px;
@@ -40,9 +45,9 @@ body{
 }
 #app{
   position:relative;height:100%;box-sizing:border-box;display:flex;flex-direction:column;
-  padding-block:10px;
-  padding-left:max(16px,env(safe-area-inset-left,0px));
-  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-top:max(10px,var(--st));padding-bottom:max(10px,var(--sb));
+  padding-left:max(16px,var(--sl));
+  padding-right:max(16px,var(--sr));
 }
 #view{position:absolute;inset:0;width:100%;height:100%;display:block;background:var(--sky)}
 button{font-family:inherit}
@@ -126,7 +131,7 @@ button{font-family:inherit}
 /* Menu principal */
 .menu{position:absolute;inset:0;z-index:6;box-sizing:border-box;display:grid;
   grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:auto minmax(0,1fr) auto;column-gap:10px;
-  padding:12px max(16px,env(safe-area-inset-right,0px)) 14px max(16px,env(safe-area-inset-left,0px));
+  padding:max(12px,var(--st)) max(16px,var(--sr)) max(14px,var(--sb)) max(16px,var(--sl));
   pointer-events:none;background:linear-gradient(180deg,rgba(20,25,34,.28) 0,rgba(20,25,34,0) 30%)}
 .menu-top{grid-column:1/-1;grid-row:1;display:flex;flex-direction:column;align-items:center;gap:8px}
 .logo{margin:0;font-family:var(--display);font-weight:400;font-size:clamp(26px,7.4vw,48px);line-height:1;text-wrap:balance;color:var(--sign-yellow);
@@ -224,7 +229,7 @@ div.opt.info.locked{opacity:.55}
 .sp-car g.bob{animation:spBob .5s ease-in-out infinite alternate}
 .sp-tag{margin:calc(var(--sz)*.08) 0 0;font-weight:700;font-size:clamp(14px,3.2vh,20px);letter-spacing:.04em;color:var(--paper);
   background:rgba(20,25,34,.62);border-radius:999px;padding:6px 16px;animation:spFade .6s ease 1.7s both}
-.sp-tap{position:absolute;left:0;right:0;bottom:max(18px,env(safe-area-inset-bottom,0px));text-align:center;font-family:var(--display);
+.sp-tap{position:absolute;left:0;right:0;bottom:max(18px,var(--sb));text-align:center;font-family:var(--display);
   font-size:clamp(13px,3.4vh,18px);color:var(--paper);text-shadow:0 2px 0 rgba(0,0,0,.5);animation:spFade .5s ease 2.1s both,spBlink 1.2s ease-in-out 2.6s infinite}
 @keyframes spDrop{0%{transform:translateY(-115vh) scale(.5) rotate(-35deg);opacity:0}15%{opacity:1}100%{transform:none;opacity:1}}
 @keyframes spWob{from{transform:rotate(var(--r)) translateY(0)}to{transform:rotate(calc(var(--r)*-.45)) translateY(calc(var(--sz)*-.035))}}
@@ -245,7 +250,7 @@ div.opt.info.locked{opacity:.55}
 
 /* Paneles y pantallas */
 .screen{position:absolute;inset:0;z-index:7;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);place-items:center;box-sizing:border-box;
-  padding:16px max(16px,env(safe-area-inset-left,0px)) 16px max(16px,env(safe-area-inset-right,0px));
+  padding:max(16px,var(--st)) max(16px,var(--sr)) max(16px,var(--sb)) max(16px,var(--sl));
   background:rgba(20,25,34,.5);overflow:auto}
 .screen.sheet{place-items:end center;background:linear-gradient(180deg,rgba(20,25,34,0) 45%,rgba(20,25,34,.3))}
 .card{width:min(100%,440px);max-height:100%;box-sizing:border-box;background:var(--paper);color:var(--ink);border:4px solid var(--ink);
@@ -321,10 +326,10 @@ input[type=text]{font-family:var(--ui);font-weight:700;font-size:20px;border:3px
 .btn:focus-visible,.pad:focus-visible,.sbtn:focus-visible,.play:focus-visible,.x:focus-visible,.pick:focus-visible,.buy:focus-visible,.tog:focus-visible,#btnPause:focus-visible,#btnMute:focus-visible,input:focus-visible{outline:3px solid var(--sign-yellow);outline-offset:3px}
 
 @media (max-height:520px){
-  .menu{padding-top:6px;padding-bottom:8px}
+  .menu{padding-top:max(6px,var(--st));padding-bottom:max(8px,var(--sb))}
   .logo{font-size:26px;-webkit-text-stroke:5px var(--ink)}
   /* horizontal: los datos del jugador van abajo a la izquierda, junto al boton Jugar, para no tapar el paisaje */
-  .chips{position:absolute;left:max(16px,env(safe-area-inset-left,0px));bottom:14px;width:158px;justify-content:flex-start;gap:4px;pointer-events:none}
+  .chips{position:absolute;left:max(16px,var(--sl));bottom:max(14px,var(--sb));width:158px;justify-content:flex-start;gap:4px;pointer-events:none}
   .chip{font-size:11px;padding:4px 8px}
   .chip.g,.chip.y{padding:4px 9px}
   .chip b{font-size:11px}
@@ -346,7 +351,7 @@ input[type=text]{font-family:var(--ui);font-weight:700;font-size:20px;border:3px
   #btnJump small{font-size:9.5px;margin-top:1px}
   .card-body{padding:12px 14px}
   /* juego en horizontal: HUD compacto, marcadores a la izquierda, aviso y cartel mas bajos */
-  #app{padding-block:6px}
+  #app{padding-top:max(6px,var(--st));padding-bottom:max(6px,var(--sb))}
   #hud{gap:6px}
   .sign{padding:4px 8px;border-width:2px}
   .sign b{font-size:16px}
@@ -1971,11 +1976,13 @@ function update(dt){
     }else{
       for(var q=0;q<rings.length;q++){
         r=rings[q]; if(r.done) continue;
-        var pd=b.prevZ-r.z, nd=b.z-r.z;
+        /* el aro ya avanzo "step" en este cuadro: su posicion anterior era r.z-step (antes se comparaba mal y se perdian goles) */
+        var pd=b.prevZ-(r.z-step), nd=b.z-r.z;
         if(pd>0 && nd<=0){
           var f2=pd/(pd-nd), ix=b.x-b.vx*dt*(1-f2), iy=b.y-b.vy*dt*(1-f2);
-          var rad=Math.sqrt((ix-r.x)*(ix-r.x)+(iy-r.y)*(iy-r.y));
-          if(rad<=RING_R-0.45){ scoreGoal(b,r); break; }
+          var ry=r.group.position.y;
+          var rad=Math.sqrt((ix-r.x)*(ix-r.x)+(iy-ry)*(iy-ry));
+          if(rad<=RING_R-0.2){ scoreGoal(b,r); break; }
         }
       }
     }
