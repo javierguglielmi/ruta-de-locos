@@ -89,13 +89,25 @@ button{font-family:inherit}
 /* Controles tactiles */
 #controls{position:relative;z-index:3;margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
 .pad-row{display:flex;gap:8px}
+/* cruceta: dos flechas pegadas; se puede deslizar el dedo de una a otra sin soltar */
+#steer{display:flex;gap:0;position:relative;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+#steer .pad{pointer-events:none;width:clamp(66px,19.5vw,100px);height:clamp(66px,19.5vw,100px)}
+#btnL{border-radius:32px 8px 8px 32px;border-right-width:2px}
+#btnR{border-radius:8px 32px 32px 8px;border-left-width:2px}
+/* acciones: Saltar grande en la esquina del pulgar, Freno y Derrape chicos encima */
+.act{display:flex;flex-direction:column;align-items:stretch;gap:8px;width:clamp(92px,26vw,116px)}
+.pad.mini{width:100%;height:clamp(40px,11vw,46px);border-radius:18px;font-size:11px}
 .pad{width:clamp(52px,14.5vw,84px);height:clamp(52px,14.5vw,84px);border-radius:24px;border:4px solid rgba(255,253,245,.85);
   background:rgba(20,25,34,.38);display:grid;place-items:center;color:var(--paper);touch-action:none;cursor:pointer;
   font-family:var(--display);font-size:13px;padding:0;-webkit-tap-highlight-color:transparent}
 .pad.down{background:rgba(255,201,40,.75);color:var(--ink);transform:translateY(3px)}
 .pad.arrow::before{content:"";width:34%;height:42%;background:currentColor;clip-path:polygon(100% 0,0 50%,100% 100%)}
 .pad.arrow.r::before{clip-path:polygon(0 0,100% 50%,0 100%)}
-#btnJump{width:clamp(66px,19vw,104px);text-align:center;line-height:1.1;font-size:11px}
+#btnJump{width:100%;height:clamp(92px,26vw,116px);border-radius:30px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;text-align:center;line-height:1;font-size:11px;background:rgba(255,201,40,.5)}
+#btnJump svg{flex:none;width:38px;height:38px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#jumpN{font-family:var(--display);font-size:clamp(30px,9vw,40px);line-height:.95;-webkit-text-stroke:0}
+#btnJump.down{transform:translateY(3px)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 #btnBrake,#btnDrift{font-family:var(--ui);font-weight:700;font-size:11px;letter-spacing:0}
 #btnBrake{background:rgba(217,41,31,.55)}
 #btnDrift{background:rgba(42,125,225,.55)}
@@ -108,8 +120,8 @@ button{font-family:inherit}
 #warn.y{background:var(--sign-yellow);color:var(--ink)}
 #warn.r{background:var(--sign-red);color:#fff;animation:blinkw .5s steps(2) infinite}
 @keyframes blinkw{50%{filter:brightness(1.35)}}
-#btnJump small{display:block;font-family:var(--ui);font-weight:700;font-size:9.5px;margin-top:3px;opacity:.85}
-#btnJump.locked{opacity:.5}
+#btnJump small{display:block;font-family:var(--ui);font-weight:700;font-size:10.5px;letter-spacing:.06em;margin-top:2px;opacity:.9}
+#btnJump.locked{opacity:.55;background:rgba(20,25,34,.38)}
 
 /* Menu principal */
 .menu{position:absolute;inset:0;z-index:6;box-sizing:border-box;display:grid;
@@ -174,6 +186,11 @@ button{font-family:inherit}
 .opt small{font-weight:600;font-size:13px;opacity:.75;line-height:1.2}
 .opt[aria-pressed="true"]{background:var(--play-green);color:#fff}
 .opt:disabled{opacity:.55;cursor:default}
+/* mapas: solo informan (no son botones); el check marca los que ya desbloqueaste */
+div.opt.info{cursor:default}
+div.opt.info.locked{opacity:.55}
+.chk{flex:none;width:30px;height:30px;border-radius:50%;background:#fff;color:var(--play-green);display:grid;place-items:center;border:3px solid var(--ink)}
+.chk svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round}
 .lock{flex:none;font-style:normal;font-family:var(--display);font-size:12px;background:var(--ink);color:#fff;border-radius:8px;padding:4px 8px}
 #raceBar{order:99;flex:0 0 100%;box-sizing:border-box;padding:0 4px;display:flex;align-items:center;gap:8px;pointer-events:none}
 #rcPos{font-family:var(--display);font-size:20px;line-height:1;color:var(--sign-yellow);text-shadow:0 2px 0 var(--ink);min-width:32px}
@@ -252,6 +269,8 @@ input[type=text]{font-family:var(--ui);font-weight:700;font-size:20px;border:3px
 .seg{display:flex;border:3px solid var(--ink);border-radius:12px;overflow:hidden;flex:none}
 .seg button{border:0;background:var(--paper);color:var(--ink);font-weight:700;font-size:15px;padding:7px 12px;cursor:pointer}
 .seg button[aria-pressed="true"]{background:var(--sign-green);color:var(--paper)}
+#langSeg button{padding:7px 9px;font-size:14px}
+@media (max-width:350px){#langSeg button{padding:6px 5px;font-size:12px}}
 .btn{font-family:var(--display);font-size:20px;background:var(--sign-yellow);color:var(--ink);border:4px solid var(--ink);
   border-radius:14px;padding:11px 20px;box-shadow:0 5px 0 #9c7600;cursor:pointer;touch-action:manipulation;flex:1}
 .btn:active{transform:translateY(4px);box-shadow:0 1px 0 #9c7600}
@@ -304,7 +323,13 @@ input[type=text]{font-family:var(--ui);font-weight:700;font-size:20px;border:3px
 @media (max-height:520px){
   .menu{padding-top:6px;padding-bottom:8px}
   .logo{font-size:26px;-webkit-text-stroke:5px var(--ink)}
-  .chips{display:none}
+  /* horizontal: los datos del jugador van abajo a la izquierda, junto al boton Jugar, para no tapar el paisaje */
+  .chips{position:absolute;left:max(16px,env(safe-area-inset-left,0px));bottom:14px;width:158px;justify-content:flex-start;gap:4px;pointer-events:none}
+  .chip{font-size:11px;padding:4px 8px}
+  .chip.g,.chip.y{padding:4px 9px}
+  .chip b{font-size:11px}
+  .coin{width:11px;height:11px}
+  .play{width:min(100%,300px)}
   .side{gap:8px}
   .sbtn{width:66px;height:66px}
   .sbtn svg{width:24px;height:24px}
@@ -312,7 +337,13 @@ input[type=text]{font-family:var(--ui);font-weight:700;font-size:20px;border:3px
   .play{font-size:24px;padding:10px 20px;box-shadow:0 6px 0 var(--play-green-dark)}
   .hint-pill{display:none}
   .pad{width:64px;height:64px}
-  #btnJump{width:80px}
+  #steer .pad{width:78px;height:68px}
+  .act{width:94px;gap:6px}
+  .pad.mini{height:36px;border-radius:14px;font-size:10px}
+  #btnJump{height:82px;border-radius:24px}
+  #jumpN{font-size:28px}
+  #btnJump svg{width:28px;height:28px}
+  #btnJump small{font-size:9.5px;margin-top:1px}
   .card-body{padding:12px 14px}
   /* juego en horizontal: HUD compacto, marcadores a la izquierda, aviso y cartel mas bajos */
   #app{padding-block:6px}
@@ -360,14 +391,17 @@ input[type=text]{font-family:var(--ui);font-weight:700;font-size:20px;border:3px
   <div id="warn" hidden></div>
 
   <div id="controls" hidden>
-    <div class="pad-row">
-      <button class="pad arrow l" id="btnL" type="button" aria-label="Girar a la izquierda"></button>
-      <button class="pad arrow r" id="btnR" type="button" aria-label="Girar a la derecha"></button>
+    <div id="steer" role="group" aria-label="Dirección">
+      <button class="pad arrow l" id="btnL" type="button" tabindex="-1" aria-label="Girar a la izquierda"></button>
+      <button class="pad arrow r" id="btnR" type="button" tabindex="-1" aria-label="Girar a la derecha"></button>
     </div>
-    <div class="pad-row">
-      <button class="pad" id="btnDrift" type="button" aria-label="Derrapar">DERRAPE</button>
-      <button class="pad brake" id="btnBrake" type="button" aria-label="Frenar">FRENO</button>
-      <button class="pad locked" id="btnJump" type="button" aria-label="Saltar">SALTAR<small id="jumpHint">sin resortes</small></button>
+    <div class="act">
+      <button class="pad mini" id="btnDrift" type="button" aria-label="Derrapar">DERRAPE</button>
+      <button class="pad mini brake" id="btnBrake" type="button" aria-label="Frenar">FRENO</button>
+      <button class="pad locked" id="btnJump" type="button" aria-label="Saltar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14M5 21h14M12 3v3M12 18v3M12 6l7 3-14 3 14 3-14 3"/></svg>
+        <span id="jumpN">0</span><small>SALTAR</small><span class="sr" id="jumpHint">sin resortes</span>
+      </button>
     </div>
   </div>
 
@@ -454,6 +488,9 @@ input[type=text]{font-family:var(--ui);font-weight:700;font-size:20px;border:3px
         <div class="row"><span>Efectos de sonido</span><button class="tog" id="tgSfx" type="button" aria-pressed="true" aria-label="Efectos de sonido"></button></div>
         <div class="row"><span>Gráficos</span>
           <div class="seg"><button id="qNorm" type="button" aria-pressed="false">Normal</button><button id="qHigh" type="button" aria-pressed="true">Alta</button></div>
+        </div>
+        <div class="row"><span>Idioma</span>
+          <div class="seg" id="langSeg"><button id="lgEs" type="button" aria-pressed="true">Español</button><button id="lgCa" type="button" aria-pressed="false">Català</button><button id="lgEn" type="button" aria-pressed="false">English</button></div>
         </div>
         <div class="row" id="fsRow" hidden><span>Pantalla completa</span><button class="btn green" id="btnFs" type="button" style="flex:none;width:auto;min-width:0;padding:8px 18px;font-size:16px">Activar</button></div>
         <p class="hint">Si el juego va lento en el celular, probá con gráficos Normal.</p>
@@ -610,7 +647,8 @@ var VEHICLES=[
   {id:'buggy',    name:'Buggy',       desc:'Abierto, con jaula y piloto.',   price:3150, at:90000},
   {id:'cohete',   name:'Cohete',      desc:'Un cohete con ruedas.',          price:3500, at:100000}
 ];
-function fmt(n){ return String(Math.floor(n)).replace(/\B(?=(\d{3})+(?!\d))/g,'.'); }
+var LANG='es';
+function fmt(n){ return String(Math.floor(n)).replace(/\B(?=(\d{3})+(?!\d))/g,LANG==='en'?',':'.'); }
 function unlockByDistance(m){
   /* m = metros de UNA sola partida (o el mejor récord al cargar). No se suman partidas. */
   var got=[], d=Math.max(m||0,0);
@@ -666,6 +704,7 @@ var RIVALS=[
   {id:'oro',    name:'Robot Oro',    at:20, len:5000, k:1.01, slip:0.15, prize:380, xp:500, col:0xffc928}
 ];
 function curLevel(){ return levelOf(save.xp); }
+var MAP_PRIZE=50;
 
 var COLORS=[
   {id:'red',   name:'Rojo',    hex:0xe8452c, price:0},
@@ -679,7 +718,7 @@ var COLORS=[
 ];
 function byId(list,id){ for(var i=0;i<list.length;i++) if(list[i].id===id) return list[i]; return null; }
 var SAVE_KEY='rutaloca-save-v2';
-var save={name:'Jugador',coins:60,best:0,total:0,xp:0,map:'clasica',mode:'normal',rival:'bronce',vehicle:'sedan',color:'red',ownV:['sedan'],ownC:['red'],music:true,sfx:true,quality:'high'};
+var save={name:'Jugador',coins:60,best:0,total:0,xp:0,map:'clasica',lang:'',mapsGot:[],mode:'normal',rival:'bronce',vehicle:'sedan',color:'red',ownV:['sedan'],ownC:['red'],music:true,sfx:true,quality:'high'};
 (function(){
   var hadXp=false;
   try{
@@ -696,9 +735,11 @@ var save={name:'Jugador',coins:60,best:0,total:0,xp:0,map:'clasica',mode:'normal
   if(!hadXp) save.xp=Math.floor(save.total/10);
   save.xp=Math.floor(save.xp);
   var lv0=levelOf(save.xp), mp0=byId(MAPS,save.map), rv0=byId(RIVALS,save.rival);
-  if(!mp0||lv0<mp0.at) save.map='clasica';
+  save.map='clasica';
   if(!rv0||lv0<rv0.at) save.rival='bronce';
   save.mode=(save.mode==='race'&&lv0>=RACE_LEVEL)?'race':'normal';
+  if(!Array.isArray(save.mapsGot)) save.mapsGot=[];
+  save.mapsGot=save.mapsGot.filter(function(id,i,a){ return !!byId(MAPS,id)&&a.indexOf(id)===i; });
   if(!Array.isArray(save.ownV)||save.ownV.indexOf('sedan')<0) save.ownV=['sedan'];
   if(!Array.isArray(save.ownC)||save.ownC.indexOf('red')<0) save.ownC=['red'];
   save.ownV=save.ownV.filter(function(id){ return !!byId(VEHICLES,id); });
@@ -706,6 +747,7 @@ var save={name:'Jugador',coins:60,best:0,total:0,xp:0,map:'clasica',mode:'normal
   if(!byId(VEHICLES,save.vehicle)||save.ownV.indexOf(save.vehicle)<0) save.vehicle='sedan';
   if(!byId(COLORS,save.color)||save.ownC.indexOf(save.color)<0) save.color='red';
   save.quality=(save.quality==='norm')?'norm':'high';
+  if(save.lang!=='es'&&save.lang!=='ca'&&save.lang!=='en') save.lang=detectLang();
   save.music=save.music!==false; save.sfx=save.sfx!==false;
 })();
 function persist(){ try{ localStorage.setItem(SAVE_KEY,JSON.stringify(save)); }catch(e){} }
@@ -759,7 +801,13 @@ function sph(r,color,x,y,z,parent){ var m=new THREE.Mesh(SPH,mat(color)); m.scal
 function basic(color,opts){ var o=opts||{}; o.color=color; return new THREE.MeshBasicMaterial(o); }
 
 /* ---------- biomas (cada ruta cambia el paisaje) ---------- */
-var BIOMES=(byId(MAPS,save.map)||MAPS[0]).biomes;
+/* siempre se empieza en el Campo (Ruta Clasica); los mapas desbloqueados se suman DESPUES, en orden, a medida que avanzas */
+function buildBiomes(){
+  var L=curLevel(), out=MAPS[0].biomes.slice();
+  MAPS.forEach(function(m,i){ if(i>0&&m.at<=L) out=out.concat(m.biomes); });
+  return out;
+}
+var BIOMES=buildBiomes();
 function biomeAt(d){ return BIOMES[Math.floor(Math.max(0,d)/BIOME_LEN)%BIOMES.length]; }
 var curSky=new THREE.Color(BIOMES[0].sky), curGround=new THREE.Color(BIOMES[0].ground), curSun=new THREE.Color(BIOMES[0].sun);
 var curLum=1;
@@ -1717,7 +1765,7 @@ function updateHud(){
   var dtx=(input.drift&&G.driftK>0.5)?(G.driftT>=0.8?'Derrape · ¡turbo listo!':'Derrape'):'';
   if(hudCache.dr!==dtx){ hudCache.dr=dtx; upEls.drift.textContent=dtx; upEls.drift.hidden=!dtx; }
   var bj=$('btnJump'), has=G.jump>0, hk=has?('quedan '+G.jump):'sin resortes';
-  if(hudCache.hj!==hk){ hudCache.hj=hk; bj.classList.toggle('locked',!has); $('jumpHint').textContent=hk; }
+  if(hudCache.hj!==hk){ hudCache.hj=hk; bj.classList.toggle('locked',!has); $('jumpHint').textContent=hk; $('jumpN').textContent=String(G.jump); }
   /* cartel de aviso: tren > semaforo en rojo > vias adelante */
   var wl=0, wtxt='', k2, ob;
   for(k2=0;k2<obstacles.length;k2++){
@@ -1739,7 +1787,7 @@ function biomeColorsStep(dt){
   scene.background.copy(curSky); scene.fog.color.copy(curSky); groundMat.color.copy(curGround); sunMat.color.copy(curSun);
 }
 function applyMapNow(){
-  var mp=byId(MAPS,save.map)||MAPS[0]; BIOMES=mp.biomes;
+  BIOMES=buildBiomes();
   var b=BIOMES[0]; curSky.set(b.sky); curGround.set(b.ground); curSun.set(b.sun); curLum=b.lum||1;
   scene.background.copy(curSky); scene.fog.color.copy(curSky); groundMat.color.copy(curGround); sunMat.color.copy(curSun);
   hemi.intensity=0.95*curLum; sunLight.intensity=0.75*curLum;
@@ -1820,7 +1868,7 @@ function update(dt){
   var dir=(input.right?1:0)-(input.left?1:0);
   var grounded=(car.y<=0.001), drifting=!!(input.drift && grounded && G.speed>7);
   car.vx+=(dir*(drifting?22:15)-car.vx)*Math.min(1,dt*(drifting?5.5:10));
-  var push=-G.curve*G.speed*0.07*(drifting?0.3:1);
+  var push=-G.curve*G.speed*0.032*(drifting?0.3:1);
   car.slide=car.vx+push;
   car.x+=car.slide*dt;
   if(drifting){
@@ -2140,13 +2188,11 @@ function vehicleSvg(id,hex){
   return s+'</svg>';
 }
 function modeLabel(){
-  var mp=byId(MAPS,save.map)||MAPS[0];
-  var md=(save.mode==='race')?('Carrera · '+(byId(RIVALS,save.rival)||RIVALS[0]).name):'Normal';
-  return md+' · '+mp.name;
+  return (save.mode==='race')?('Carrera · '+(byId(RIVALS,save.rival)||RIVALS[0]).name):'Normal';
 }
 function refreshChips(){
   $('lvChip').textContent=String(curLevel()); $('lvBadge').textContent=String(curLevel()); $('modePill').textContent=modeLabel();
-  $('nameChip').textContent=save.name;
+  $('nameChip').textContent=save.name==='Jugador'?tx('Jugador'):save.name;
   $('coinChip').textContent=String(save.coins);
   $('best').textContent=fmt(save.best);
 }
@@ -2175,19 +2221,29 @@ function renderLevels(){
       return optHtml('rival',r.id,r.name,fmt(r.len/1000*1000)+' m · premio '+r.prize+' monedas',L>=r.at,save.rival===r.id,r.at);
     }).join('')+'</div>';
   }
-  h+='<h3>MAPA</h3><div class="opts">'+MAPS.map(function(m){
-    return optHtml('map',m.id,m.name,m.biomes.map(function(b){return b.name;}).join(' · '),L>=m.at,save.map===m.id,m.at,[m.biomes[0].sky,m.biomes[0].ground]);
+  h+='<h3>MAPA</h3><p class="hint">Todas las partidas empiezan en el Campo. Los mapas que desbloqueás van apareciendo más adelante en la ruta, uno tras otro, y cada uno te da monedas.</p><div class="opts" role="list">'+MAPS.map(function(m,i){
+    var open=L>=m.at, pz=i>0?(save.mapsGot.indexOf(m.id)>=0?' · premio cobrado':' · premio '+MAP_PRIZE*i+' monedas'):'';
+    return '<div class="opt info'+(open?'':' locked')+'" role="listitem"'+(open?' aria-pressed="true"':'')+'>'+
+      '<span class="sw2" style="background:linear-gradient(180deg,'+hexCss(m.biomes[0].sky)+' 0 50%,'+hexCss(m.biomes[0].ground)+' 50%)"></span>'+
+      '<span class="t"><b>'+m.name+'</b><small>'+m.biomes.map(function(b){return b.name;}).join(' · ')+pz+'</small></span>'+
+      (open?'<span class="chk" aria-label="Desbloqueado"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>':'<em class="lock">Nv '+m.at+'</em>')+'</div>';
   }).join('')+'</div>';
   $('lvBody').innerHTML=h;
 }
 function bankXp(gain){
-  var from=curLevel(); save.xp+=gain; var to=curLevel(), ups=[], L;
+  var from=curLevel(); save.xp+=gain; var to=curLevel(), ups=[], L, bonus=0;
+  /* cada mapa desbloqueado da monedas una sola vez: 50 el primero, 100 el segundo, 150 el tercero... (no cambia el mapa elegido) */
+  MAPS.forEach(function(m,i){
+    if(i>0&&m.at<=to&&save.mapsGot.indexOf(m.id)<0){
+      var c=MAP_PRIZE*i; save.mapsGot.push(m.id); save.coins+=c; bonus+=c;
+      ups.push('Mapa nuevo en la ruta: '+m.name+' (+'+c+' monedas)');
+    }
+  });
   for(L=from+1;L<=to;L++){
-    MAPS.forEach(function(m){ if(m.at===L) ups.push('Mapa nuevo: '+m.name); });
     if(L===RACE_LEVEL) ups.push('¡Carreras contra robots!');
     RIVALS.forEach(function(r){ if(r.at===L&&L!==RACE_LEVEL) ups.push(r.name); });
   }
-  return {from:from,to:to,ups:ups,gain:gain};
+  return {from:from,to:to,ups:ups,gain:gain,coins:bonus};
 }
 function renderShop(){
   $('shopCoins').textContent=String(save.coins);
@@ -2256,19 +2312,20 @@ function gameOver(){
   var lv=bankXp(runXp(m,G.goals)+(win?R.rv.xp:0));
   var got=(G.unlocked||[]).slice(); reachDistance(m).forEach(function(v){ got.push(v); }); persist();
   $('oTitle').textContent=win?'¡GANASTE LA CARRERA!':robotWon?'¡Ganó el robot!':(save.name==='Jugador'?'¡Chocaste!':'¡Chocaste, '+save.name+'!');
-  $('oDist').textContent=String(m); $('oGoals').textContent=String(G.goals); $('oCoins').textContent='+'+earned;
+  $('oDist').textContent=String(m); $('oGoals').textContent=String(G.goals); $('oCoins').textContent='+'+(earned+lv.coins);
   var L=lv.to, xpPct=L<LEVEL_MAX?(save.xp-xpFor(L))/(xpFor(L+1)-xpFor(L))*100:100;
   $('oXpBar').style.width=xpPct.toFixed(1)+'%';
   $('oXp').textContent='Nivel '+L+' · +'+fmt(lv.gain)+' XP · '+(L<LEVEL_MAX?'faltan '+fmt(xpFor(L+1)-save.xp)+' para el nivel '+(L+1):'¡nivel máximo!');
   var goal=nextGoal();
   $('oNext').textContent=goal?('Próximo coche gratis: '+goal.name+' si llegás a '+fmt(goal.at)+' m en una sola partida (tu mejor: '+fmt(save.best)+').'):'¡Ya conseguiste todos los coches por distancia!';
   $('oBar').style.width=(goal?Math.min(100,m/goal.at*100):100).toFixed(1)+'%';
-  if(lv.to>lv.from) sfx.goal(); else if(got.length&&!(G.unlocked&&G.unlocked.length)){ sfx.pick(); }
+  if(lv.to>lv.from||lv.coins) sfx.goal(); else if(got.length&&!(G.unlocked&&G.unlocked.length)){ sfx.pick(); }
   var causeMsg=G.cause==='tren'?'El tren te llevó por delante. Frená antes de las vías y esperá a que pase.':(G.cause==='semaforo'?'Cruzaste con el semáforo en rojo. Frená y esperá el verde.':'');
   if(G.cause==='tren') $('oTitle').textContent='¡Te llevó el tren!';
   var base=win?('¡Le ganaste a '+R.rv.name+'! +'+R.rv.prize+' monedas de premio.'):robotWon?'El robot llegó primero a la meta. ¡Probá otra vez!':
     causeMsg?(causeMsg+(got.length?' ¡Desbloqueaste '+got.map(function(v){return v.name;}).join(' y ')+'!':'')):got.length?('¡Desbloqueaste '+got.map(function(v){return v.name;}).join(' y ')+'! Ya está en tu garaje.'):isBest?'¡Nueva mejor marca! '+m+' metros.':(G.jump===0?'Tip: buscá los resortes amarillos para poder saltar.':'Mejor marca: '+save.best+' metros.');
-  if(lv.to>lv.from) base+=' ¡SUBISTE AL NIVEL '+lv.to+'!'+(lv.ups.length?' '+lv.ups.join(' · ')+'.':'');
+  if(lv.to>lv.from) base+=' ¡SUBISTE AL NIVEL '+lv.to+'!';
+  if(lv.ups.length) base+=' '+lv.ups.join(' · ')+'.';
   $('oMsg').textContent=base;
   input.left=input.right=input.jump=input.brake=input.drift=false;
   $('hud').hidden=true; $('controls').hidden=true;
@@ -2286,8 +2343,18 @@ function hold(el,on,off){
   var up=function(){ el.classList.remove('down'); off(); };
   el.addEventListener('pointerup',up); el.addEventListener('pointercancel',up); el.addEventListener('lostpointercapture',up);
 }
-hold($('btnL'),function(){input.left=true;},function(){input.left=false;});
-hold($('btnR'),function(){input.right=true;},function(){input.right=false;});
+/* cruceta: una sola zona; la mitad izquierda gira a la izquierda, la derecha a la derecha, y se puede deslizar sin soltar */
+(function(){
+  var st=$('steer'), bl=$('btnL'), br=$('btnR'), pid=null;
+  function side(e){
+    var r=st.getBoundingClientRect(), left=e.clientX<r.left+r.width/2;
+    input.left=left; input.right=!left; bl.classList.toggle('down',left); br.classList.toggle('down',!left);
+  }
+  function end(){ pid=null; input.left=input.right=false; bl.classList.remove('down'); br.classList.remove('down'); }
+  st.addEventListener('pointerdown',function(e){ e.preventDefault(); if(pid!==null) return; pid=e.pointerId; try{ st.setPointerCapture(pid); }catch(_){} side(e); });
+  st.addEventListener('pointermove',function(e){ if(e.pointerId===pid) side(e); });
+  ['pointerup','pointercancel','lostpointercapture'].forEach(function(t){ st.addEventListener(t,function(e){ if(e.pointerId===pid) end(); }); });
+})();
 hold($('btnJump'),function(){input.jump=true; G.jumpBuf=0.18;},function(){input.jump=false;});
 hold($('btnBrake'),function(){input.brake=true;},function(){input.brake=false;});
 hold($('btnDrift'),function(){input.drift=true;},function(){input.drift=false;});
@@ -2300,7 +2367,7 @@ $('pauseMenu').addEventListener('click',function(){
   var lv=null;
   if(G.state==='pause'){ lv=bankXp(runXp(Math.floor(G.dist),G.goals)); persist(); }
   goMenu();
-  if(lv&&lv.to>lv.from) toast('¡NIVEL '+lv.to+'!');
+  if(lv&&(lv.to>lv.from||lv.coins)) toast((lv.to>lv.from?'¡NIVEL '+lv.to+'!':'¡MAPA NUEVO!')+(lv.coins?' +'+lv.coins+' monedas':''));
 });
 $('btnPause').addEventListener('click',pauseGame);
 $('btnMute').addEventListener('click',function(){
@@ -2395,10 +2462,277 @@ $('pLevels').addEventListener('click',function(e){
   var a=t.getAttribute('data-act'), v=t.getAttribute('data-v'), L=curLevel(), r, mp;
   if(a==='mode'){ if(v==='race'&&L<RACE_LEVEL) return; save.mode=(v==='race')?'race':'normal'; }
   else if(a==='rival'){ r=byId(RIVALS,v); if(!r||L<r.at) return; save.rival=v; }
-  else if(a==='map'){ mp=byId(MAPS,v); if(!mp||L<mp.at) return; save.map=v; applyMapNow(); }
   else return;
   persist(); renderLevels(); refreshChips();
 });
+/* ---------- idiomas (es / ca / en) ----------
+   El juego escribe todo en espanol. Este modulo traduce lo que aparece en pantalla:
+   mira los textos nuevos con un MutationObserver y los cambia segun save.lang. */
+var I18N_RAW={
+'Juego de autos en 3D':['Joc de cotxes en 3D','3D car game'],
+'Vidas':['Vides','Lives'],'Sonido':['So','Sound'],'Pausa':['Pausa','Pause'],
+'Carrera contra el robot':['Cursa contra el robot','Race against the robot'],
+'Dirección':['Direcció','Steering'],
+'Girar a la izquierda':['Gira a l\'esquerra','Turn left'],'Girar a la derecha':['Gira a la dreta','Turn right'],
+'Derrapar':['Derrapar','Drift'],'Frenar':['Frenar','Brake'],'Saltar':['Saltar','Jump'],
+'Opciones':['Opcions','Options'],'Tienda y vehículos':['Botiga i vehicles','Shop and vehicles'],'Cerrar':['Tancar','Close'],
+'Ruta':['Ruta','Route'],'metros':['metres','meters'],'goles':['gols','goals'],'Jugador':['Jugador','Player'],
+'Nivel':['Nivell','Level'],'Mejor':['Millor','Best'],'SON':['SO','SND'],'DERRAPE':['DERRAPA','DRIFT'],'FRENO':['FRE','BRAKE'],
+'SALTAR':['SALTAR','JUMP'],'sin resortes':['sense molles','no springs'],
+'Esquivá · Saltá · ¡Llegá lejos!':['Esquiva · Salta · Arriba ben lluny!','Dodge · Jump · Go far!'],
+'Tocá para entrar':['Toca per entrar','Tap to enter'],
+'Ajustes':['Ajustos','Settings'],'Vehículos':['Vehicles','Vehicles'],'Desbloqueado':['Desbloquejat','Unlocked'],'Nombre':['Nom','Name'],'Tienda':['Botiga','Shop'],'Niveles':['Nivells','Levels'],
+'Tocá la pantalla para activar la música':['Toca la pantalla per activar la música','Tap the screen to turn on the music'],
+'Jugar':['Jugar','Play'],'Música':['Música','Music'],'Efectos de sonido':['Efectes de so','Sound effects'],
+'Gráficos':['Gràfics','Graphics'],'Alta':['Alta','High'],'Pantalla completa':['Pantalla completa','Full screen'],
+'Activar':['Activar','Turn on'],'Salir':['Sortir','Exit'],
+'Si el juego va lento en el celular, probá con gráficos Normal.':['Si el joc va lent al mòbil, prova amb gràfics Normal.','If the game runs slowly on your phone, try Normal graphics.'],
+'Listo':['Fet','Done'],'Idioma':['Idioma','Language'],
+'Tu nombre':['El teu nom','Your name'],'¿Cómo te llamás?':['Com et dius?','What\'s your name?'],'Guardar':['Desar','Save'],
+'Cómo se juega':['Com es juga','How to play'],
+'GIRAR':['GIRAR','STEER'],
+'Flechas o A / D. En el celular, los botones de abajo.':['Fletxes o A / D. Al mòbil, els botons de baix.','Arrow keys or A / D. On a phone, the buttons at the bottom.'],
+'ESQUIVAR':['ESQUIVAR','DODGE'],
+'Los autos chocados y las barreras te sacan una vida. Tenés tres.':['Els cotxes accidentats i les barreres et treuen una vida. En tens tres.','Crashed cars and barriers cost you a life. You have three.'],
+'Cada resorte amarillo es un salto. Se gasta uno por salto: mirá el cartelito.':['Cada molla groga és un salt. Es gasta una per salt: mira el cartellet.','Each yellow spring is one jump. One is used per jump: check the little sign.'],
+'FRENAR':['FRENAR','BRAKE'],
+'Mantené FRENO o la flecha de abajo (S) para parar. Soltá y volvés a acelerar.':['Mantén FRE o la fletxa avall (S) per parar. Deixa anar i tornes a accelerar.','Hold BRAKE or the down arrow (S) to stop. Let go and you speed up again.'],
+'NIVELES':['NIVELLS','LEVELS'],
+'Cada 10 metros dan 1 XP y cada gol 15 XP. Subís de nivel y desbloqueás mapas. En el nivel 10 llegan las carreras contra robots.':['Cada 10 metres donen 1 XP i cada gol 15 XP. Puges de nivell i desbloqueges mapes. Al nivell 10 arriben les curses contra robots.','Every 10 meters gives 1 XP and each goal 15 XP. You level up and unlock maps. At level 10, races against robots arrive.'],
+'CURVAS Y DERRAPE':['CORBES I DERRAPADA','CURVES AND DRIFT'],
+'La ruta dobla: la ves venir de lejos y el auto empieza a girar cuando llegás. Te empuja un poco hacia afuera. Mantené DERRAPE (o Shift) para girar más fuerte. Si derrapás un rato, ganás un turbo.':['La ruta fa corba: la veus venir de lluny i el cotxe comença a girar quan hi arribes. T\'empeny una mica cap enfora. Mantén DERRAPA (o Shift) per girar més fort. Si derrapes una estona, guanyes un turbo.','The road bends: you see it coming from far away and the car starts turning when you get there. It pushes you slightly outward. Hold DRIFT (or Shift) to turn harder. If you drift for a while, you earn a turbo.'],
+'SEMÁFOROS':['SEMÀFORS','TRAFFIC LIGHTS'],
+'Si cruzás la línea con luz roja, perdés una vida. Frená y esperá el verde.':['Si creues la línia amb llum vermella, perds una vida. Frena i espera el verd.','If you cross the line on a red light, you lose a life. Brake and wait for green.'],
+'TREN':['TREN','TRAIN'],
+'Al llegar a las vías viene el tren. Frená antes: si te agarra, perdés la partida.':['En arribar a les vies ve el tren. Frena abans: si t\'atrapa, perds la partida.','When you reach the tracks, the train comes. Brake before: if it catches you, you lose the run.'],
+'PELOTAS Y AROS':['PILOTES I ANELLES','BALLS AND HOOPS'],
+'Chocá las pelotas de frente y vuelan al aro más cercano. ¡Gol!':['Xoca les pilotes de front i volen a l\'anella més propera. Gol!','Hit the balls head-on and they fly to the nearest hoop. Goal!'],
+'ESCUDO Y TURBO':['ESCUT I TURBO','SHIELD AND TURBO'],
+'Cada escudo azul aguanta un choque. Si tenés varios, el siguiente se activa solo a los 3 segundos. El naranja da velocidad.':['Cada escut blau aguanta un xoc. Si en tens diversos, el següent s\'activa sol als 3 segons. El taronja dóna velocitat.','Each blue shield takes one crash. If you have several, the next one turns on by itself after 3 seconds. The orange one gives speed.'],
+'MONEDAS':['MONEDES','COINS'],
+'Al terminar ganás monedas por los metros y los goles. Usalas en la tienda.':['En acabar guanyes monedes pels metres i els gols. Fes-les servir a la botiga.','When you finish you earn coins for the meters and goals. Spend them in the shop.'],
+'¡Entendido!':['Entesos!','Got it!'],
+'monedas':['monedes','coins'],
+'Ganás 1 moneda cada 40 metros y 10 por cada gol.':['Guanyes 1 moneda cada 40 metres i 10 per cada gol.','You earn 1 coin every 40 meters and 10 for each goal.'],
+'VEHÍCULOS':['VEHICLES','VEHICLES'],'COLORES':['COLORS','COLORS'],
+'Mis vehículos':['Els meus vehicles','My vehicles'],'VEHÍCULO':['VEHICLE','VEHICLE'],'COLOR':['COLOR','COLOR'],
+'¡Chocaste!':['Has xocat!','You crashed!'],'Menú':['Menú','Menu'],'Otra vez':['Una altra vegada','Again'],
+'Descanso':['Descans','Break'],'Seguir':['Continuar','Resume'],
+'NIVEL':['NIVELL','LEVEL'],'MODO':['MODE','MODE'],
+'Esquivá y llegá lo más lejos que puedas.':['Esquiva i arriba tan lluny com puguis.','Dodge and get as far as you can.'],
+'Carrera contra robot':['Cursa contra robot','Race against a robot'],'Carrera':['Cursa','Race'],
+'Llegá primero a la meta y ganás más monedas.':['Arriba primer a la meta i guanyes més monedes.','Reach the finish first and win more coins.'],
+'MAPA':['MAPA','MAP'],
+'1 XP cada 10 metros, 15 XP por gol y un premio extra si hacés una partida larga.':['1 XP cada 10 metres, 15 XP per gol i un premi extra si fas una partida llarga.','1 XP every 10 meters, 15 XP per goal and an extra prize if you play a long run.'],
+'Todas las partidas empiezan en el Campo. Los mapas que desbloqueás van apareciendo más adelante en la ruta, uno tras otro, y cada uno te da monedas.':['Totes les partides comencen al Camp. Els mapes que desbloqueges van apareixent més endavant a la ruta, un després de l\'altre, i cadascun et dóna monedes.','Every run starts in the Countryside. The maps you unlock appear further along the road, one after another, and each one gives you coins.'],
+'premio cobrado':['premi cobrat','prize claimed'],
+'¡Nivel máximo!':['Nivell màxim!','Max level!'],'¡nivel máximo!':['nivell màxim!','max level!'],
+'Robot Bronce':['Robot Bronze','Bronze Robot'],'Robot Plata':['Robot Plata','Silver Robot'],'Robot Oro':['Robot Or','Gold Robot'],
+'Ruta Clásica':['Ruta Clàssica','Classic Route'],'Campo':['Camp','Countryside'],'Desierto':['Desert','Desert'],'Ciudad':['Ciutat','City'],'Nieve':['Neu','Snow'],
+'Desierto Loco':['Desert Boig','Crazy Desert'],'Dunas':['Dunes','Dunes'],'Cañón':['Canyó','Canyon'],'Oasis':['Oasi','Oasis'],
+'Montaña Nevada':['Muntanya Nevada','Snowy Mountain'],'Pinar':['Pinar','Pine Forest'],'Cumbre':['Cim','Summit'],
+'Ciudad de Noche':['Ciutat de Nit','City at Night'],'Centro':['Centre','Downtown'],'Barrio':['Barri','Neighborhood'],'Puerto':['Port','Harbor'],
+'Playa Tropical':['Platja Tropical','Tropical Beach'],'Costa':['Costa','Coast'],'Palmeral':['Palmerar','Palm Grove'],'Atardecer':['Capvespre','Sunset'],
+'Volcán':['Volcà','Volcano'],'Lava':['Lava','Lava'],'Tractor':['Tractor','Tractor'],'Buggy':['Buggy','Buggy'],'Ceniza':['Cendra','Ash'],'Humo':['Fum','Smoke'],
+'Mundo Neón':['Món Neó','Neon World'],'Neón rosa':['Neó rosa','Pink neon'],'Neón azul':['Neó blau','Blue neon'],'Neón verde':['Neó verd','Green neon'],
+'Rayo':['Llamp','Lightning'],'Compacto y ligero.':['Compacte i lleuger.','Compact and light.'],
+'Camioneta':['Camioneta','Pickup'],'Con caja para las pelotas.':['Amb caixa per a les pilotes.','With a bed for the balls.'],
+'Deportivo':['Esportiu','Sports car'],'Bajo, ancho y con alerón.':['Baix, ample i amb aleró.','Low, wide, with a spoiler.'],
+'Moto Cono':['Moto Con','Cone Bike'],'El piloto lleva un cono en la cabeza.':['El pilot du un con al cap.','The rider wears a cone on his head.'],
+'Monstruo':['Monstre','Monster'],'Ruedas gigantes.':['Rodes gegants.','Giant wheels.'],
+'Taxi Loco':['Taxi Boig','Crazy Taxi'],'Con cartel y rayas a cuadros.':['Amb cartell i ratlles a quadres.','With a sign and checkered stripes.'],
+'Bombero':['Bomber','Fire Truck'],'Con escalera y sirenas.':['Amb escala i sirenes.','With a ladder and sirens.'],
+'Patrulla':['Patrulla','Police Car'],'Luces azules y rojas.':['Llums blaves i vermelles.','Blue and red lights.'],
+'Ambulancia':['Ambulància','Ambulance'],'Siempre con prisa.':['Sempre amb pressa.','Always in a hurry.'],
+'Bus Escolar':['Bus Escolar','School Bus'],'Largo y con muchas ventanas.':['Llarg i amb moltes finestres.','Long, with lots of windows.'],
+'Ruedas enormes atrás.':['Rodes enormes al darrere.','Huge wheels in the back.'],
+'Heladero':['Gelater','Ice Cream Truck'],'Trae un helado gigante arriba.':['Porta un gelat gegant a dalt.','Carries a giant ice cream on top.'],
+'Fórmula':['Fórmula','Formula'],'Rápido y con ruedas al aire.':['Ràpid i amb rodes a l\'aire.','Fast, with open wheels.'],
+'Abierto, con jaula y piloto.':['Obert, amb gàbia i pilot.','Open, with a roll cage and a driver.'],
+'Cohete':['Coet','Rocket'],'Un cohete con ruedas.':['Un coet amb rodes.','A rocket with wheels.'],
+'Rojo':['Vermell','Red'],'Azul':['Blau','Blue'],'Verde':['Verd','Green'],'Amarillo':['Groc','Yellow'],
+'Violeta':['Violeta','Purple'],'Rosa':['Rosa','Pink'],'Negro':['Negre','Black'],'Blanco':['Blanc','White'],
+'Tocá una foto para verla grande.':['Toca una foto per veure-la gran.','Tap a picture to see it bigger.'],
+'Todavía te faltan monedas.':['Encara et falten monedes.','You still need more coins.'],
+'¡Es tuyo! Ya lo estás usando.':['És teu! Ja l\'estàs fent servir.','It\'s yours! You\'re already using it.'],
+'Tuyo':['Teu','Yours'],'¡Conseguido por distancia!':['Aconseguit per distància!','Earned by distance!'],
+'¡CURVA A LA DERECHA!':['CORBA A LA DRETA!','CURVE TO THE RIGHT!'],'¡CURVA A LA IZQUIERDA!':['CORBA A L\'ESQUERRA!','CURVE TO THE LEFT!'],
+'¡ROJO! -1 vida':['VERMELL! -1 vida','RED! -1 life'],
+'¡GOOOL!':['GOOOL!','GOOOAL!'],'¡Escudo!':['Escut!','Shield!'],
+'¡CARRERA!':['CURSA!','RACE!'],'Llegá primero a la meta':['Arriba primer a la meta','Reach the finish first'],
+'Derrape':['Derrapada','Drift'],'¡turbo listo!':['turbo a punt!','turbo ready!'],
+'¡Escudo roto!':['Escut trencat!','Shield broken!'],'¡Última vida!':['Última vida!','Last life!'],'¡Choque!':['Xoc!','Crash!'],
+'¡Escudo listo!':['Escut a punt!','Shield ready!'],'¡TURBO DE DERRAPE!':['TURBO DE DERRAPADA!','DRIFT TURBO!'],
+'¡RESORTE!':['MOLLA!','SPRING!'],'Tocá SALTAR':['Toca SALTAR','Tap JUMP'],
+'¡RESORTES!':['MOLLES!','SPRINGS!'],'¡ESCUDO!':['ESCUT!','SHIELD!'],
+'RESORTES':['MOLLES','SPRINGS'],'ESCUDO':['ESCUT','SHIELD'],
+'VÍAS ADELANTE':['VIES PEL DAVANT','TRACKS AHEAD'],'FRENÁ':['FRENA','BRAKE'],
+'¡TREN!':['TREN!','TRAIN!'],'NO CRUCES':['NO CREUIS','DON\'T CROSS'],'SEMÁFORO EN ROJO':['SEMÀFOR EN VERMELL','RED LIGHT'],
+'¡MAPA NUEVO!':['MAPA NOU!','NEW MAP!'],
+'¡GANASTE LA CARRERA!':['HAS GUANYAT LA CURSA!','YOU WON THE RACE!'],'¡Ganó el robot!':['Ha guanyat el robot!','The robot won!'],
+'¡Te llevó el tren!':['T\'ha atropellat el tren!','The train got you!'],
+'¡Ya conseguiste todos los coches por distancia!':['Ja has aconseguit tots els cotxes per distància!','You already earned every car by distance!'],
+'El tren te llevó por delante.':['El tren t\'ha atropellat.','The train ran you over.'],
+'Frená antes de las vías y esperá a que pase.':['Frena abans de les vies i espera que passi.','Brake before the tracks and wait for it to pass.'],
+'Cruzaste con el semáforo en rojo.':['Has creuat amb el semàfor en vermell.','You crossed on a red light.'],
+'Frená y esperá el verde.':['Frena i espera el verd.','Brake and wait for green.'],
+'El robot llegó primero a la meta.':['El robot ha arribat primer a la meta.','The robot reached the finish first.'],
+'¡Probá otra vez!':['Torna-ho a provar!','Try again!'],
+'Ya está en tu garaje.':['Ja és al teu garatge.','It\'s in your garage now.'],
+'¡Nueva mejor marca!':['Nou rècord!','New best!'],
+'Tip: buscá los resortes amarillos para poder saltar.':['Truc: busca les molles grogues per poder saltar.','Tip: find the yellow springs so you can jump.'],
+'¡Carreras contra robots!':['Curses contra robots!','Races against robots!'],
+'1º':['1r','1st'],'2º':['2n','2nd']
+};
+/* frases con numeros o nombres: [expresion, catalan, ingles]; $1 se traduce, $r1 queda igual, $L1 es una lista "A y B" */
+var I18N_PAT=[
+[/^quedan (\d+)$/,'queden $1','$1 left'],
+[/^Resortes x(\d+)$/,'Molles x$1','Springs x$1'],
+[/^Escudo x(\d+)$/,'Escut x$1','Shield x$1'],[/^Escudos x(\d+)$/,'Escuts x$1','Shields x$1'],
+[/^listo en (\d+) s$/,'a punt en $1 s','ready in $1 s'],
+[/^Queda (\d+)$/,'Queda $1','$1 left'],
+[/^¡RESORTES x(\d+)!$/,'MOLLES x$1!','SPRINGS x$1!'],[/^¡ESCUDOS x(\d+)!$/,'ESCUTS x$1!','SHIELDS x$1!'],
+[/^¡DESBLOQUEASTE (.+)!$/,'HAS DESBLOQUEJAT $1!','YOU UNLOCKED $1!'],
+[/^¡NIVEL (\d+)!$/,'NIVELL $1!','LEVEL $1!'],
+[/^¡SUBISTE AL NIVEL (\d+)!$/,'HAS PUJAT AL NIVELL $1!','YOU REACHED LEVEL $1!'],
+[/^\+(\d+) monedas$/,'+$1 monedes','+$1 coins'],
+[/^\+(\d+) monedas de premio$/,'+$1 monedes de premi','+$1 coin prize'],
+[/^¡Le ganaste a (.+)!$/,'Has guanyat a $1!','You beat $1!'],
+[/^¡Chocaste, (.+)!$/,'Has xocat, $r1!','You crashed, $r1!'],
+[/^¡Desbloqueaste (.+)!$/,'Has desbloquejat $L1!','You unlocked $L1!'],
+[/^([\d.,]+) metros$/,'$1 metres','$1 meters'],
+[/^Mejor marca: ([\d.,]+) metros$/,'Millor marca: $1 metres','Best: $1 meters'],
+[/^Nivel (\d+)$/,'Nivell $1','Level $1'],
+[/^faltan ([\d.,]+) para el nivel (\d+)$/,'falten $1 per al nivell $2','$1 to go for level $2'],
+[/^Nv (\d+)$/,'Nv $1','Lv $1'],
+[/^premio (\d+) monedas$/,'premi $1 monedes','prize $1 coins'],
+[/^Mapa nuevo en la ruta: (.+) \(\+(\d+) monedas\)$/,'Mapa nou a la ruta: $1 (+$2 monedes)','New map on the road: $1 (+$2 coins)'],
+[/^Gratis si llegás a ([\d.,]+) m en UNA sola partida \(tu mejor: ([\d.,]+)\)$/,'Gratis si arribes a $1 m en UNA sola partida (el teu millor: $2)','Free if you reach $1 m in ONE single run (your best: $2)'],
+[/^Próximo coche gratis: (.+) si llegás a ([\d.,]+) m en una sola partida \(tu mejor: ([\d.,]+)\)$/,'Proper cotxe gratis: $1 si arribes a $2 m en una sola partida (el teu millor: $3)','Next free car: $1 if you reach $2 m in a single run (your best: $3)'],
+[/^Ver más grande: (.+)$/,'Veure més gran: $1','View larger: $1']
+];
+var I18N={ca:{},en:{}}, I18N_LO={ca:{},en:{}};
+(function(){
+  for(var k in I18N_RAW){ I18N.ca[k]=I18N_RAW[k][0]; I18N.en[k]=I18N_RAW[k][1]; I18N_LO.ca[k.toLowerCase()]=I18N_RAW[k][0]; I18N_LO.en[k.toLowerCase()]=I18N_RAW[k][1]; }
+})();
+var LANGS=['es','ca','en'];
+function detectLang(){
+  var n=''; try{ n=String((navigator.languages&&navigator.languages[0])||navigator.language||'').toLowerCase(); }catch(e){}
+  return n.indexOf('ca')===0?'ca':(n.indexOf('en')===0?'en':'es');
+}
+function trName(s){
+  var r=txCore(s); return r===null?s:r;
+}
+function fillTpl(tpl,m){
+  return tpl.replace(/\$(r|L)?(\d)/g,function(_,f,i){
+    var c=m[+i]; if(c===undefined) return '';
+    if(f==='r') return c;
+    if(f==='L') return c.split(' y ').map(trName).join(LANG==='ca'?' i ':' and ');
+    return trName(c);
+  });
+}
+function txCore(core){
+  var d=I18N[LANG], r=d[core], i, m;
+  if(r!==undefined) return r;
+  if(core===core.toUpperCase()){ r=I18N_LO[LANG][core.toLowerCase()]; if(r!==undefined) return r.toUpperCase(); }
+  for(i=0;i<I18N_PAT.length;i++){ m=I18N_PAT[i][0].exec(core); if(m) return fillTpl(I18N_PAT[i][LANG==='ca'?1:2],m); }
+  return null;
+}
+function txSegs(s){
+  var out=[], cur='', i=0, n=s.length, j;
+  while(i<n){
+    if(s.substr(i,3)===' · '){ out.push(cur); out.push(' · '); cur=''; i+=3; continue; }
+    if(s.substr(i,2)==='  '){ j=i; while(s.charAt(j)===' ') j++; out.push(cur); out.push(s.slice(i,j)); cur=''; i=j; continue; }
+    var ch=s.charAt(i); cur+=ch;
+    if((ch==='.'||ch==='!'||ch==='?')&&s.charAt(i+1)===' '){
+      j=i+1; while(s.charAt(j)===' ') j++;
+      out.push(cur); out.push(s.slice(i+1,j)); cur=''; i=j; continue;
+    }
+    i++;
+  }
+  out.push(cur); return out;
+}
+function tx(str){
+  if(LANG==='es'||typeof str!=='string') return str;
+  var m=/^(\s*)([\s\S]*?)(\s*)$/.exec(str), core=m[2];
+  if(!core||!/[A-Za-zÀ-ÿº]/.test(core)) return str;
+  var r=txCore(core), k;
+  if(r===null&&core.charAt(core.length-1)==='.'){ r=txCore(core.slice(0,-1)); if(r!==null) r+='.'; }
+  if(r===null){
+    var sg=txSegs(core);
+    if(sg.length>1){
+      var any=false, out='', t, tr;
+      for(k=0;k<sg.length;k++){
+        if(k%2){ out+=sg[k]; continue; }
+        t=sg[k]; tr=t?tx(t):t; if(tr!==t) any=true; out+=tr;
+      }
+      if(any) r=out;
+    }
+  }
+  return r===null?str:m[1]+r+m[3];
+}
+var I18N_ATTR=['aria-label','placeholder','title'];
+var tOrig=(typeof WeakMap!=='undefined')?new WeakMap():null, aOrig=(typeof WeakMap!=='undefined')?new WeakMap():null, i18nObs=null;
+function trNode(n){
+  if(!tOrig) return;
+  var p=n.parentNode; if(p&&p.id==='nameChip') return;
+  var v=n.nodeValue, o=tOrig.get(n), t;
+  if(!o&&!/[A-Za-zÀ-ÿº]/.test(v)) return;
+  if(o&&o.shown===v){ t=tx(o.es); if(t!==v){ o.shown=t; n.nodeValue=t; } return; }
+  t=tx(v); tOrig.set(n,{es:v,shown:t}); if(t!==v) n.nodeValue=t;
+}
+function trAttrs(el){
+  if(!aOrig) return;
+  var o=aOrig.get(el), a, v, t, i;
+  for(i=0;i<I18N_ATTR.length;i++){
+    a=I18N_ATTR[i]; v=el.getAttribute(a); if(v===null) continue;
+    if(!o){ o={}; aOrig.set(el,o); }
+    if(o[a]&&o[a].shown===v){ t=tx(o[a].es); if(t!==v){ o[a].shown=t; el.setAttribute(a,t); } }
+    else { t=tx(v); o[a]={es:v,shown:t}; if(t!==v) el.setAttribute(a,t); }
+  }
+}
+function trWalk(root){
+  if(!root) return;
+  if(root.nodeType===3){ trNode(root); return; }
+  if(root.nodeType!==1) return;
+  var tg=root.tagName; if(tg==='SCRIPT'||tg==='STYLE') return;
+  trAttrs(root);
+  var c=root.firstChild; while(c){ trWalk(c); c=c.nextSibling; }
+}
+function i18nStart(){
+  if(typeof MutationObserver==='undefined'||!document.getElementById('app')) return;
+  if(!i18nObs){
+    i18nObs=new MutationObserver(function(recs){
+      var i, j, r;
+      for(i=0;i<recs.length;i++){
+        r=recs[i];
+        if(r.type==='childList'){ for(j=0;j<r.addedNodes.length;j++) trWalk(r.addedNodes[j]); }
+        else if(r.type==='characterData'){ if(r.target.nodeType===3) trNode(r.target); }
+        else if(r.type==='attributes'){ trAttrs(r.target); }
+      }
+    });
+  }
+  i18nObs.observe($('app'),{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:I18N_ATTR});
+}
+function applyLang(){
+  if(i18nObs){ try{ i18nObs.disconnect(); }catch(e){} }
+  LANG=save.lang;
+  try{ document.documentElement.lang=LANG; }catch(e){}
+  trWalk($('app'));
+  refreshChips();
+  ['es','ca','en'].forEach(function(l){ var b=$('lg'+l.charAt(0).toUpperCase()+l.charAt(1)); if(b) b.setAttribute('aria-pressed',String(save.lang===l)); });
+  if(LANG!=='es') i18nStart();
+}
+function setLang(l){
+  if(LANGS.indexOf(l)<0) return;
+  save.lang=l; persist(); applyLang();
+}
+['es','ca','en'].forEach(function(l){
+  var b=$('lg'+l.charAt(0).toUpperCase()+l.charAt(1));
+  if(b) b.addEventListener('click',function(){ setLang(l); });
+});
+applyLang();
+
 document.addEventListener('pointerdown',audioInit);
 document.addEventListener('visibilitychange',function(){
   if(document.hidden){ pauseGame(); if(AC){ try{ AC.suspend(); }catch(e){} } }

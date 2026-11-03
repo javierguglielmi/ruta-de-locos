@@ -1,7 +1,7 @@
 /* Ruta de Locos - service worker.
    - Pagina principal: primero red (siempre la ultima version si hay internet), si no hay, la copia guardada.
    - Three.js, fuentes e iconos: se guardan la primera vez y despues salen del telefono. */
-var CACHE = 'ruta-de-locos-v5';
+var CACHE = 'ruta-de-locos-v12';
 var SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 var CDN = [
   'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',
